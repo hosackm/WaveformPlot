@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "plotter.h"
 
-#define REFRESH_MS 100
+#define REFRESH_MS 50
 #define SAMPLERATE 44100
 #define NSAMPLES (SAMPLERATE / (1000/REFRESH_MS))
 
@@ -21,6 +21,9 @@ void plotter_init(){
     handle = gnuplot_init();
     gnuplot_setstyle(handle, "lines") ;
     gnuplot_cmd(handle, "set yrange [-1.0:1.0]");
+    char xrange[128]; //assemble xrange command string
+    sprintf(xrange, "set xrange[%d:%d]",0,NSAMPLES);
+    gnuplot_cmd(handle, xrange);
     gnuplot_cmd(handle, "set title 'Microphone Input'");
     gnuplot_cmd(handle, "set xlabel 'Sample'");
     gnuplot_cmd(handle, "set ylabel 'Amplitude'");
