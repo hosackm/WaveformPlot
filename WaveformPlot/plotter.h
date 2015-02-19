@@ -11,9 +11,8 @@
 
 #include "gnuplot_i.h"
 
-extern void plotter_init();
-extern void plotter_close();
-extern void plotter_write(float data);
-static void plot();
+void plotter_init();
+void plotter_close();
+void plotter_write(const float* in, float *out, unsigned long numFrames);
 
 #endif

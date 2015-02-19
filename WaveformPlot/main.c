@@ -24,12 +24,9 @@ static int callback(const void* input,
 {
 	float* in = (float*)input;
 	float* out = (float*)output;
-    int i;
-    for(i=0; i < framesPerBuffer; i++){
-        float sample = *in++;
-        plotter_write(sample);
-        *out++ = sample;
-    }
+
+	plotter_write(in, out, framesPerBuffer);
+
 	return 0;
 }
 
@@ -55,7 +52,7 @@ void pa_init(){
                                1,
                                paFloat32,
                                SAMPLE_RATE,
-                               64,//256,
+                               256,
                                callback,
                                NULL);
 	if (err != paNoError){
@@ -69,13 +66,6 @@ void pa_init(){
 	if (err != paNoError){
 		print_error(err);
 	}
-    
-	const PaStreamInfo* info = Pa_GetStreamInfo(stream);
-	printf("\nStream Information:\n");
-	printf("StructVersion: %d\n",info->structVersion);
-	printf("inputLatency: %f\n",info->inputLatency);
-	printf("outputLatency: %f\n",info->outputLatency);
-	printf("Sample Rate: %f\n\n",info->sampleRate);
 }
 
 void pa_close(){
